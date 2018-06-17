@@ -25,11 +25,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsScraper");
+mongoose.connect("mongodb://localhost/week18Populater");
 
-app.get("/", function(req, res) {
-  
-
+app.get("/scrape", function(req, res) {
 
   axios.get("https://quillette.com").then(function(response) {
 
@@ -44,15 +42,18 @@ app.get("/", function(req, res) {
     result.link = $(this)
     .children("a")
     .attr("href");
+    result.summary = $(this)
+    .siblings("p.summary")
+    .text();
  
     // Create a new Article using the 'result' object built from scraping
     db.Article.create(result)
       .then(function(dbArticle) {
         // View the added result in the console
-        console.log(dbArticle);
+        console.log('wacky', dbArticle);
       })
       .catch(function(err) {
-        return res.json(err);
+        return res.json('Wowwwww!',err);
       });
   });
   // If we were successful scraping and save an Article, send a message to the client
@@ -60,7 +61,46 @@ app.get("/", function(req, res) {
   });
 });
 
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  // Grab every doc in the articles collection
+  db.Article.find({})
+  .then(function(dbArticle) {
+    // if find articles, send them to the client
+    res.json(err);
+  })
+})
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/articles/:id", function(req, res) {
+  //query that finds the matching one in our db
+  db.Article.findOne({ _id: req.params.id })
+  // ..and populate all of the notes associated with it
+  .populate("note")
+  .then(function(dbArticle) {
+    // If we were able to successfully find an Article with the given id, send it back to the client
+    res.json(dbArticle);
+  })
+  .catch(function(err) {
+    res.json(err);
+  })
+})
 
+// Route for saving or updating a given Article's associated Note
+app.post("/articles/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  db.Note.create(req.body)
+  .then(function(dbNote) {
+    return db.Article.findOneAndUpdate({_id: req.params.id }, { note: dbNote._id}, { new: true });
+  })
+  .then(function(dbArticle) {
+    res.json(dbArticle);
+  })
+  .catch(function(err) {
+    res.json(err);
+  })
+});
+
+// Start the server
   app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
   });
