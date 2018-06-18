@@ -1,5 +1,5 @@
 var express = require('express');
-var expressHbrs = require('express-handlebars');
+var exphbs = require('express-handlebars');
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var request = require('request');
@@ -24,8 +24,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/week18Populater");
+mongoose.connect("mongodb://localhost/webScraper");
+
+app.get("/", function(req, res) {
+  res.render("index");
+});
 
 app.get("/scrape", function(req, res) {
 
@@ -58,6 +65,7 @@ app.get("/scrape", function(req, res) {
   });
   // If we were successful scraping and save an Article, send a message to the client
   res.send("Scrape Complete");
+  res.render("index", { Article } )
   });
 });
 
@@ -67,9 +75,13 @@ app.get("/articles", function(req, res) {
   db.Article.find({})
   .then(function(dbArticle) {
     // if find articles, send them to the client
-    res.json(err);
+    res.json(dbArticle);
   })
-})
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+  })
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
   //query that finds the matching one in our db
