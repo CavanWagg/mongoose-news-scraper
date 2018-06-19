@@ -31,6 +31,7 @@ app.set("view engine", "handlebars");
 mongoose.connect("mongodb://localhost/webScraper");
 
 app.get("/", function(req, res) {
+  
   res.render("index");
 });
 
@@ -65,7 +66,7 @@ app.get("/scrape", function(req, res) {
   });
   // If we were successful scraping and save an Article, send a message to the client
   res.send("Scrape Complete");
-  res.render("index", { Article } )
+  
   });
 });
 
@@ -75,7 +76,7 @@ app.get("/articles", function(req, res) {
   db.Article.find({})
   .then(function(dbArticle) {
     // if find articles, send them to the client
-    res.json(dbArticle);
+    res.render("index", { dbArticle: dbArticle } )
   })
     .catch(function(err) {
       // If an error occurred, send it to the client

@@ -1,19 +1,29 @@
 <h1>Articles!</h1>
-
+<button id="getArticles">getArticles </button>
+<div id="notes"></div>
 <ul>
-  {{#each Articles}}
-  {{/each}}
+  <div class="card">
+    <div class="card-body">
+      {{#each dbArticle}}
+      <a href={{link}}>{{title}}</a>
+      <p>{{summary}}</p>
+      {{/each}}
+    </div>
+  </div>
 </ul>
 
 
 <form action="/submit" method="post">
-    <h1>Hi User!</h1>
-    <h2>Enter a Note!</h2>
-      <input type="text" name="title" placeholder="Title">
-      <textarea type="text" name="body">Write Note Here</textarea>
+  <h1>Hi User!</h1>
+  <h2>Enter a Note!</h2>
+  <input type="text" name="title" placeholder="Title">
+  <textarea type="text" name="body">Write Note Here</textarea>
 
-      <input type="submit">
-      <a href="/notes">See your notes!</a>
-      <a href="/user">See your profile!</a>
-      <a href="/populateduser">See your profile, populated with notes!</a>
-    </form>
+  <input type="submit">
+  <a href="/notes">See your notes!</a>
+  <a href="/user">See your profile!</a>
+  <a href="/populateduser">See your profile, populated with notes!</a>
+</form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <script src="./public/assets/js/app.js"></script>
