@@ -1,3 +1,4 @@
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // for each one
@@ -20,7 +21,7 @@ $(document).on("click", "p", function() {
   })
   // now, add the note information to the page
   .then(function(data) {
-    console.log(data);
+    console.log('app line 23', data);
     // The title of the article
     $("#notes").append(`<h2> + ${data.title} + </h2>`)
     $("#notes").append(`<input id='titleInput' name='title' >`)
@@ -42,3 +43,8 @@ $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 })
+
+
+// remove the values entered in the input and textarea for note entry
+$("#titleinput").val("");
+$('#bodyInput').val("");

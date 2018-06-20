@@ -65,7 +65,8 @@ app.get("/scrape", function(req, res) {
       });
   });
   // If we were successful scraping and save an Article, send a message to the client
-  res.send("Scrape Complete");
+  // res.send("Scrape Complete");
+  res.redirect("/articles");
   
   });
 });
