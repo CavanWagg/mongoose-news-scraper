@@ -6,8 +6,8 @@
   <div class="card">
     <div class="card-body">
       {{#each dbArticle}}
-      <a href={{link}}>{{title}}</a>
-      <p>{{summary}}</p>
+      <a target="_blank" href={{link}}>{{title}}</a>
+      <p data-id={{_id}}>{{summary}}</p>
       {{/each}}
     </div>
   </div>

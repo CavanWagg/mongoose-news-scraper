@@ -7,6 +7,7 @@ var ArticleSchema = new Schema({
 
   title: {
     type: String,
+    index: { unique: true },
     required: true
   },
   // 'link' is required and of type String
