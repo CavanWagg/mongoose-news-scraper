@@ -1,17 +1,23 @@
+<div class="jumbotron text-center">
+<h1 class="">Articles!</h1>
+<button class="btn"id="getArticles"><a href="/scrape">scrape for articles</a></button>
+</div>
 
-<h1>Articles!</h1>
-<button id="getArticles"><a href="/scrape">scrape for articles</a></button>
-<div id="notes"></div>
-<ul>
-  <div class="card">
-    <div class="card-body">
+
+
+
+  <div id="wrapper">
+    <div id="articles" class="card">
       {{#each dbArticle}}
-      <a target="_blank" href={{link}}>{{title}}</a>
-      <p data-id={{_id}}>{{summary}}</p>
+      <div class="card-body">
+        <a target="_blank" class="card-title" href={{link}}>{{title}}</a>
+      <p class="card-text" data-id={{_id}}>{{summary}}</p>
+      </div>
       {{/each}}
     </div>
+     <div id="notes"></div>
   </div>
-</ul>
+ 
 
 
 {{!-- <form action="/submit" method="post">
