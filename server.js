@@ -114,6 +114,9 @@ app.post("/articles/:id", function(req, res) {
   })
 });
 
+app.delete("/articles" , function(req, res) {
+  db.Note.remove()
+})
 // Start the server
   app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");

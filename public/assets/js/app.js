@@ -69,3 +69,22 @@ $.ajax({
 $("#titleInput").val("");
 $('#bodyInput').val("");
 });
+
+$(document).on("click", "#deletenote", function() {
+
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  $.ajax({
+    method: "DELETE",
+    url: "/articles/" + thisId,
+    success: function(data){
+      console.log(data);
+    }
+  })
+  .then(function(data) {
+    $("#notes").empty();
+  })
+
+
+});
