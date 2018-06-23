@@ -70,16 +70,28 @@ $("#titleInput").val("");
 $('#bodyInput').val("");
 });
 
-$(document).on("click", "#deletenote", function() {
+$(document).on("click", "#deletenote", function(event) {
+  event.preventDefault;
+
 
   // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
+  const thisId = $(this).attr("data-id");
+  const articleId = $('#savenote').attr("data-id");
+  const card = $(this);
+  console.log('Id:',articleId);
+  // console.log('articleId',articleId);
 
   $.ajax({
     method: "DELETE",
-    url: "/articles/" + thisId,
+    url: `/delete/notes/${articleId}/${thisId}`,
     success: function(data){
       console.log(data);
+      console.log('successfully deleted');
+      card.remove();
+
+    },
+    error: function(err) {
+      console.log(err);
     }
   })
   .then(function(data) {

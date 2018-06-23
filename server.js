@@ -114,9 +114,18 @@ app.post("/articles/:id", function(req, res) {
   })
 });
 
-app.delete("/articles" , function(req, res) {
-  db.Note.remove()
+app.delete("/delete/notes/:articleId/:noteId" , function(req, res) {
+  db.Note.remove({_id: req.params.noteId})
+  .then(function(dbNote) {
+  return db.Article.update({_id: req.params.articleId}, {$pull : {notes: req.params.noteId}})
+}).then(function(dbArticle) {
+  res.json(dbArticle);
 })
+.catch(function(err) {
+  res.json(err);
+})
+});
+
 // Start the server
   app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
