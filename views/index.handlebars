@@ -1,10 +1,12 @@
 <div class="jumbotron text-center" style="background-color: #7afcff">
 <h1 class="">Quillette News Scraper!</h1>
-<button class="btn"id="getArticles"><a style="color: white" href="/scrape">scrape for articles</a></button>
+<button class="btn"id="getArticles"><a id="scrapeButton" style="color: white" href="/scrape">scrape for articles</a></button>
+
 </div>
 
   <div id="wrapper">
     <div id="articles" class="card">
+      <h3 id="load"style="visibility:hidden" data-text="Loading…">Loading…</h1>
       {{#each dbArticle}}
       <div class="card-body">
         <a target="_blank" class="card-title" href={{link}}>{{title}}</a>

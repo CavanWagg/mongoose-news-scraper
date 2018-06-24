@@ -7,6 +7,11 @@ $.getJSON("/articles", function(data) {
     $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].summary + "</p")
   }
 });
+//When pressing the scrape button
+$(document).on("click", "#scrapeButton", function() {
+  $('#load').css("visibility", "visible");
+});
+
 
 $(document).on("click", "p", function() {
   // Empty the notes from the note section
@@ -21,7 +26,7 @@ $(document).on("click", "p", function() {
   })
   // now, add the note information to the page
   .then(function(data) {
-    console.log('app line 23', data);
+    console.log('line 29', data);
     // The title of the article
     $("#notes").append(`<h2> + ${data.title} + </h2>`)
     $("#notes").append(`<input id='titleInput' name='title' >`)
@@ -56,11 +61,7 @@ $.ajax({
     body: $("#bodyInput").val()
   }
 })
-
-// With that done
 .then(function(data) {
-  // log the response
-  console.log('line 61', data);
   // Empty the notes section
   $("#notes").empty();
 });
@@ -71,32 +72,23 @@ $('#bodyInput').val("");
 });
 
 $(document).on("click", "#deletenote", function(event) {
-  event.preventDefault;
-
 
   // Grab the id associated with the article from the submit button
   const thisId = $(this).attr("data-id");
-  const articleId = $('#savenote').attr("data-id");
-  const card = $(this);
-  console.log('Id:',articleId);
-  // console.log('articleId',articleId);
 
   $.ajax({
     method: "DELETE",
-    url: `/delete/notes/${articleId}/${thisId}`,
+    url: `/articles/${thisId}`,
     success: function(data){
-      console.log(data);
       console.log('successfully deleted');
-      card.remove();
-
     },
     error: function(err) {
       console.log(err);
     }
   })
   .then(function(data) {
+    $("#titleInput").val("");
+    $("#bodyInput").val("");
     $("#notes").empty();
   })
-
-
 });

@@ -117,13 +117,14 @@ app.post("/articles/:id", function(req, res) {
   })
 });
 
-app.delete("/delete/notes/:articleId/:noteId" , function(req, res) {
-  db.Note.remove({_id: req.params.noteId})
-  .then(function(dbNote) {
-  return db.Article.update({_id: req.params.articleId}, {$pull : {notes: req.params.noteId}})
-}).then(function(dbArticle) {
-  res.json(dbArticle);
-})
+app.delete("/articles/:id" , function(req, res) {
+  console.log('server line 121',req.params.id)
+  // db.Article.findOneAndRemove({_id: req.params.id}, function () {
+    console.log('it deleted');
+    db.Note.remove().then(function(dbNote) {
+      res.json(dbNote);
+    })
+  // })
 .catch(function(err) {
   res.json(err);
 })
