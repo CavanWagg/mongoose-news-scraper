@@ -8,7 +8,7 @@ $.getJSON("/articles", function(data) {
   }
 });
 //When pressing the scrape button
-$(document).on("click", "#scrapeButton", function() {
+$(document).on("click", "#getArticles", function() {
   $('#load').css("visibility", "visible");
 });
 
