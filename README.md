@@ -1,6 +1,16 @@
 # Quillette News Scraper
 
+*Homepage Header with button to begin web scrape*
 
+![Screenshot](https://cl.ly/ae4e74cdf6f4/Image%2525202018-08-25%252520at%25252012.02.47%252520PM.png)
+
+*Articles scraped from Quillette Magazine. Includes title with link to article and brief summary* 
+
+![Screenshot](https://cl.ly/63ae048640c3/Image%2525202018-08-25%252520at%25252011.58.10%252520AM.png)
+
+*Example of a saved note for specific article*
+
+![Screenshot](https://cl.ly/40984fd23ad1/Image%2525202018-08-25%252520at%25252012.01.27%252520PM.png)
 
 ## Demo
 
