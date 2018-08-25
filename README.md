@@ -1,6 +1,6 @@
 # Quillette News Scraper
 
-Quillette News Scraper is a web app that scrapes recent news articles from Quillette magazine
+
 
 ## Demo
 
