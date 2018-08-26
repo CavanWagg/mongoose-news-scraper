@@ -1,14 +1,14 @@
 
 // Grab the articles as a json
-$.getJSON("/articles", function(data) {
+$.getJSON("/articles", (data) => { 
   // for each one
-  for (var i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     // Display the article information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].summary + "</p")
+    $("#articles").append(`<p data-id='${   data[i]._id  }'>${  data[i].title  }<br />${  data[i].link  }<br />${  data[i].summary  }</p`)
   }
 });
-//When pressing the scrape button
-$(document).on("click", "#getArticles", function() {
+// When pressing the scrape button
+$(document).on("click", "#getArticles", () => {
   $('#load').css("visibility", "visible");
 });
 
@@ -17,16 +17,15 @@ $(document).on("click", "p", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
-  var thisId = $(this).attr("data-id");
+  const thisId = $(this).attr("data-id");
 
   // Now make an ajax call for the Article
   $.ajax({
     method: "GET",
-    url: "/articles/" + thisId
+    url: `/articles/${  thisId}`
   })
   // now, add the note information to the page
-  .then(function(data) {
-    console.log('line 29', data);
+  .then((data) => {
     // The title of the article
     $("#notes").append(`<h2> + ${data.title} + </h2>`)
     $("#notes").append(`<input id='titleInput' name='title' >`)
@@ -48,12 +47,12 @@ $(document).on("click", "p", function() {
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
+  const thisId = $(this).attr("data-id");
   
 // Run a POST request to change the note, using what's entered in the inputs
 $.ajax({
   method: "POST",
-  url: "/articles/" + thisId,
+  url: `/articles/${  thisId}`,
   data: {
     // Value taken from title input
     title: $("#titleInput").val(),
@@ -61,7 +60,7 @@ $.ajax({
     body: $("#bodyInput").val()
   }
 })
-.then(function(data) {
+.then((data) => {
   // Empty the notes section
   $("#notes").empty();
 });
@@ -79,14 +78,13 @@ $(document).on("click", "#deletenote", function(event) {
   $.ajax({
     method: "DELETE",
     url: `/articles/${thisId}`,
-    success: function(data){
-      console.log('successfully deleted');
+    success(data){
     },
-    error: function(err) {
+    error(err) {
       console.log(err);
     }
   })
-  .then(function(data) {
+  .then((data) => {
     $("#titleInput").val("");
     $("#bodyInput").val("");
     $("#notes").empty();

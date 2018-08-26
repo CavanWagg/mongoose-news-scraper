@@ -1,21 +1,21 @@
-var express = require('express');
-var exphbs = require('express-handlebars');
-var mongoose = require("mongoose");
-var bodyParser = require("body-parser");
-var request = require('request');
-var logger = require("morgan");
+const express = require('express');
+const exphbs = require('express-handlebars');
+const mongoose = require("mongoose"); 
+const bodyParser = require("body-parser");
+const request = require('request');
+const logger = require("morgan"); 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
-var axios = require("axios");
-var cheerio = require("cheerio");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 // Require all models
-var db = require("./models");
+const db = require("./models");
 
-var PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-var app = express();
+const app = express();
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -28,27 +28,27 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGOLAB_AQUA_URI || "mongodb://localhost/mongoHeadlines";
+const MONGODB_URI = process.env.MONGOLAB_AQUA_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   
   res.render("index");
 });
 
-app.get("/scrape", function(req, res) {
+app.get("/scrape", (req, res) => {
 
-  axios.get("https://quillette.com").then(function(response) {
+  axios.get("https://quillette.com").then((response) => {
 
-  var $ = cheerio.load(response.data);
+  const $ = cheerio.load(response.data); 
 
-  $("h3.entry-title, h2.entry-title").each(function(i, element) {
+  $("h3.entry-title, h2.entry-title").each(function(i, element) { 
     
-    var result = {};
-  
-    result.title = $(this)
+    const result = {}; 
+    
+    result.title = $(this) 
     .text();
     result.link = $(this)
     .children("a")
@@ -56,16 +56,12 @@ app.get("/scrape", function(req, res) {
     result.summary = $(this)
     .siblings("p.summary")
     .text();
- 
     // Create a new Article using the 'result' object built from scraping
     db.Article.create(result)
-      .then(function(dbArticle) {
+      .then((dbArticle) => {
         // View the added result in the console
-        console.log('wacky', dbArticle);
       })
-      .catch(function(err) {
-        return res.json('Wowwwww!',err);
-      });
+      .catch((err) => res.json(err));
   });
   // If we were successful scraping and save an Article, send a message to the client
   // res.send("Scrape Complete");
@@ -75,62 +71,58 @@ app.get("/scrape", function(req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+app.get("/articles", (req, res) => {
   // Grab every doc in the articles collection
   db.Article.find({})
-  .then(function(dbArticle) {
+  .then((dbArticle) => {
     // if find articles, send them to the client
-    res.render("index", { dbArticle: dbArticle } )
+    res.render("index", { dbArticle } )
   })
-    .catch(function(err) {
+    .catch((err) => {
       // If an error occurred, send it to the client
       res.json(err);
     });
   })
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function(req, res) {
-  //query that finds the matching one in our db
+app.get("/articles/:id", (req, res) => {
+  // query that finds the matching one in our db
   db.Article.findOne({ _id: req.params.id })
   // ..and populate all of the notes associated with it
   .populate("note")
-  .then(function(dbArticle) {
+  .then((dbArticle) => {
     // If we were able to successfully find an Article with the given id, send it back to the client
     res.json(dbArticle);
   })
-  .catch(function(err) {
+  .catch((err) => {
     res.json(err);
   })
 })
 
 // Route for saving or updating a given Article's associated Note
-app.post("/articles/:id", function(req, res) {
+app.post("/articles/:id", (req, res) => {
   // Create a new note and pass the req.body to the entry
   db.Note.create(req.body)
-  .then(function(dbNote) {
-    return db.Article.findOneAndUpdate({_id: req.params.id }, { note: dbNote._id}, { new: true });
-  })
-  .then(function(dbArticle) {
+  .then((dbNote) => db.Article.findOneAndUpdate({_id: req.params.id }, { note: dbNote._id}, { new: true }))
+  .then((dbArticle) => {
     res.json(dbArticle);
   })
-  .catch(function(err) {
+  .catch((err) => {
     res.json(err);
   })
 });
 
-app.delete("/articles/:id" , function(req, res) {
-  console.log('server line 121',req.params.id)
-  // db.Article.findOneAndRemove({_id: req.params.id}, function () {
-    console.log('it deleted');
-    db.Note.remove().then(function(dbNote) {
+app.delete("/articles/:id" , (req, res) => {
+
+    db.Note.remove().then((dbNote) => {
       res.json(dbNote);
     })
-  // })
-.catch(function(err) {
+
+.catch((err) => {
   res.json(err);
 })
 });
 
 // Start the server
-  app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
+  app.listen(PORT, () => {
+    console.log(`App running on port ${  PORT  }!`);
   });
