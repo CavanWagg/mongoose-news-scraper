@@ -1,10 +1,10 @@
-body { 
-  background-color: #F2F6D0 
+body {
+  background-color: #f2f6d0;
 }
 h3 {
   position: relative;
-  color: rgba(0, 0, 0, .3);
-  font-size: 3em
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 3em;
 }
 h3:before {
   content: attr(data-text);
@@ -17,38 +17,38 @@ h3:before {
 }
 @keyframes loading {
   0% {
-      max-width: 0;
+    max-width: 0;
   }
 }
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 1%;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      #getArticles{
-        background: #ff65a3;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #feff9c;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
+#wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1%;
+}
+#articles {
+  display: inline-block;
+  overflow: auto;
+  width: 60%;
+  height: 700px;
+}
+
+#getArticles {
+  background: #ff65a3;
+}
+textarea,
+input {
+  display: block;
+  width: 100%;
+  background-color: #feff9c;
+}
+input {
+  height: 36px;
+  font-size: 24px;
+}
+textarea {
+  height: 200px;
+  font-size: 18px;
+}
+.card {
+  min-width: 300px;
+}
