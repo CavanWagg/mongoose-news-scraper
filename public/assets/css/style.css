@@ -29,7 +29,7 @@ h3:before {
   display: inline-block;
   overflow: auto;
   width: 60%;
-  height: 700px;
+  height: 470px;
 }
 
 #getArticles {
@@ -51,4 +51,26 @@ textarea {
 }
 .card {
   min-width: 300px;
+  max-width: 500px;
+}
+.main-heading {
+  padding: 1.5rem 0.75rem;
+}
+.footer {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #7afcff;
+}
+p.card-text {
+  cursor: pointer;
+}
+.footer-text {
+  color: #feff9c;
+}
+a {
+  color: #155724;
 }
